@@ -30,6 +30,7 @@ const CustomerList = () => {
           <li key={customer.Id}>{customer.name}</li>
         ))}
       </ul>
+      <h2>Driver List</h2>
     </div>
   );
 };
