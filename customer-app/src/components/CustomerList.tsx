@@ -9,10 +9,10 @@ const CustomerList = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await axios.get('/customers');
+        const response = await axios.get('http://localhost:5000/customers');
         setCustomers(response.data);
       } catch (error) {
-        console.error('Error fetching customers:', error);
+        console.error('Error fetching customers123:', error);
       }
     };
 
@@ -22,11 +22,11 @@ const CustomerList = () => {
   return (
     <div>
       <h2>Customer List</h2>
-      <ul>
+      <li>
         {customers.map((customer:any) => (
           <li key={customer.Id}>{customer.name}</li>
         ))}
-      </ul>
+      </li>
     </div>
   );
 };
