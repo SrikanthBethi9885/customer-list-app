@@ -8,14 +8,14 @@ const CustomerList = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await fetch('/.netlify/functions/customers');  // Updated endpoint
+        const response = await fetch('/.netlify/functions/customer');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
         setCustomers(data);
-      } catch (error) {
-        console.error('Error fetching customers:');
+      } catch (error:any) {
+        console.error('Error fetching customers:', error.message);
       }
     };
 
