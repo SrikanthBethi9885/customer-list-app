@@ -43,6 +43,7 @@ const CustomerList = () => {
                   ))}
               </tbody>
           </table>
+          <h2>This is a sample table</h2>
       </div>
 
   );
