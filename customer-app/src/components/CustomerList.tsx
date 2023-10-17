@@ -44,6 +44,7 @@ const CustomerList = () => {
               </tbody>
           </table>
           <h2>This is a sample table</h2>
+          <h2>I am Sandela Ashwin</h2>
       </div>
 
   );
