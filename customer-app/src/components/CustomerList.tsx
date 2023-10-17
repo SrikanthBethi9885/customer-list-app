@@ -8,7 +8,7 @@ const CustomerList = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await fetch('/.netlify/functions/customer');
+        const response = await fetch('http://localhost:8888/.netlify/functions/customer');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
