@@ -28,7 +28,7 @@ const CustomerList = () => {
           <table border={1} style={{ margin: 'auto' }}>
               <thead>
                   <tr>
-                      <th>Customer ID</th>
+                      <th>ID</th>
                       <th>Name</th>
                       <th>Address</th>
                   </tr>

@@ -8,22 +8,48 @@ const connection = mysql.createConnection({
 });
 
 exports.handler = async (event) => {
-  connection.connect();
+  // Enable CORS for all origins
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE',
+  };
 
-  const sql = 'SELECT * FROM customers';
+  // Check the request method to handle preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: '',
+    };
+  }
 
-  return new Promise((resolve, reject) => {
-    connection.query(sql, (err, results) => {
-      if (err) {
-        connection.end();
-        reject(err);
-      } else {
-        connection.end();
-        resolve({
-          statusCode: 200,
-          body: JSON.stringify(results),
-        });
-      }
+  // Handle the GET request
+  if (event.httpMethod === 'GET') {
+    connection.connect();
+
+    const sql = 'SELECT * FROM customers';
+
+    return new Promise((resolve, reject) => {
+      connection.query(sql, (err, results) => {
+        if (err) {
+          connection.end();
+          reject(err);
+        } else {
+          connection.end();
+          resolve({
+            statusCode: 200,
+            headers,
+            body: JSON.stringify(results),
+          });
+        }
+      });
     });
-  });
+  }
+
+  return {
+    statusCode: 405,
+    headers,
+    body: 'Method Not Allowed',
+  };
 };
