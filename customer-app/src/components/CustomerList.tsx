@@ -23,15 +23,28 @@ const CustomerList = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Customer List</h2>
-      <ul>
-        {customers.map((customer:any) => (
-          <li key={customer.Id}>{customer.name}</li>
-        ))}
-      </ul>
-      <h2>Driver List</h2>
-    </div>
+      <div style={{ textAlign: 'center' }}>
+          <h2>Customer List</h2>
+          <table border={1} style={{ margin: 'auto' }}>
+              <thead>
+                  <tr>
+                      <th>Customer ID</th>
+                      <th>Name</th>
+                      <th>Address</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {customers.map((customer: any) => (
+                      <tr key={customer.Id}>
+                          <td>{customer.Id}</td>
+                          <td>{customer.name}</td>
+                          <td>{customer.address}</td>
+                      </tr>
+                  ))}
+              </tbody>
+          </table>
+      </div>
+
   );
 };
 
