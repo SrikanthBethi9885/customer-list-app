@@ -1,156 +1,52 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-
-interface Customer {
-    Id: number;
-    name: string;
-    address: string;
-    // Add more fields as needed
-}
-const itemsPerPage = 5; // Number of items per page
+import React, { useEffect, useState } from 'react';
 
 const AboutContent: React.FC = () => {
-    const [customers, setCustomers] = useState<Customer[]>([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [newCustomer, setNewCustomer] = useState<Customer>({
-        Id: 0, // Assume 0 for a new customer (this should be handled on the server)
-        name: '',
-        address: '',
-    });
-    const [showAddForm, setShowAddForm] = useState(false);
-    const [successMessage, setSuccessMessage] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const [deleteMessage, setDeleteMessage] = useState('')
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-
-        setNewCustomer((prevCustomer) => ({
-            ...prevCustomer,
-            [name]: value,
-        }));
-    };
-    const handleShowForm = () => {
-        setShowAddForm(true);
-    };
-
-
-
-    const handleAddCustomer = () => {
-        if (!newCustomer.name || !newCustomer.address) {
-            setErrorMessage('Name and Address are required.');
-            return; // Stop the function if validation fails
-        } else {
-            setErrorMessage('');
-        }
-        axios
-            .post('http://localhost:5000/api/addCustomer', newCustomer)
-            .then((response) => {
-                // Assuming the server returns the newly added customer
-                setCustomers([...customers, newCustomer]);
-                setNewCustomer({
-                    Id: 0,
-                    name: '',
-                    address: '',
-                });
-                setSuccessMessage(response.data.message);
-                setShowAddForm(false);
-
-            })
-            .catch((error) => console.error('Error adding customer:', error));
-    };
-
-    // Calculate the index of the first and last item to display
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = customers.slice(indexOfFirstItem, indexOfLastItem);
-
-    const totalPages = Math.ceil(customers.length / itemsPerPage);
-
-    const handlePageChange = (page: any) => {
-        setCurrentPage(page);
-    };
+    const [villageText, setVillageText] = useState("");
+    const [youtubeText, setYoutubeText] = useState("");
 
     useEffect(() => {
-        axios
-            .get<Customer[]>('http://localhost:5000/api/customers')
-            .then((response) => setCustomers(response.data))
-            .catch((error) => console.error('Error fetching customers:', error));
+        // You can fetch the content using axios or any other method
+        // For this example, I'll assign sample text
+        setVillageText("Bachannapet, a tranquil village located in the heart of rural India, is a place where time seems to stand still amidst the beauty of tradition and nature. With its lush fields, vibrant culture, and close-knit community, Bachannapet offers a peaceful escape from the hustle and bustle of urban life. Explore the rich agricultural heritage, visit the quaint temples that grace the landscape, and immerse yourself in the traditions and festivities that have been passed down through generations. Bachannapet is a testament to the simple yet extraordinary life of rural India, where every day is a celebration of community, culture, and the beauty of nature.");
+        setYoutubeText("Welcome to the HamaraVillages YouTube channel, your gateway to the captivating world of rural India. Our channel is dedicated to showcasing the untold stories, cultural treasures, and natural wonders found in villages across the country. Through our engaging videos, you'll embark on a virtual journey to discover the heart and soul of rural life. From vibrant festivals and traditional art forms to breathtaking landscapes and heartwarming community stories, we bring you closer to the essence of India's villages. Join us as we celebrate the uniqueness, diversity, and beauty of rural life, one video at a time. Subscribe, like, and share the experience with us on HamaraVillages YouTube, and let's explore the incredible charm of village living together.");
+
+        // You can also make an axios request to fetch the content
+        // axios.get('your-api-endpoint')
+        //   .then(response => {
+        //     setVillageText(response.data.villageText);
+        //     setYoutubeText(response.data.youtubeText);
+        //   })
+        //   .catch(error => {
+        //     console.error(error);
+        //   });
     }, []);
-    const handleDeleteCustomer = (customerId: number) => {
-        axios
-            .delete(`http://localhost:5000/api/deleteCustomer/:${customerId}`)
-            .then((response) => {
-                // Assuming the server returns a success message
-                console.log(response.data.message);
-                // Update the customers state to reflect the deletion
-                setCustomers(customers.filter((customer) => customer.Id !== customerId));
-                setDeleteMessage(response.data.message)
-            })
-            .catch((error) => console.error('Error deleting customer:', error));
+    const textStyleHeader = {
+        color: '#007BFF', // Text color
+        fontWeight: 'bold', // Font weight (bold)
+        fontSize: '20px', // Font size
+        fontFamily: 'Arial, sans-serif', // Font family
     };
+    const textStyle = {
+        color: '#46967B ', // Text color
+        fontSize: '15px', // Font size
+        fontFamily: 'Arial, sans-serif', // Font family
+    };
+
 
     return (
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
-            {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
-            {deleteMessage && <div style={{ color: 'red' }}>{deleteMessage}</div>}
-            <h2>Customer List</h2>
-            <table style={{ width: '50%', margin: '0 auto', border: '1px solid black', borderCollapse: 'collapse' }}>
-                <thead>
-                    <tr>
-                        <th style={{ padding: '10px', border: '1px solid black' }}>Id</th>
-                        <th style={{ padding: '10px', border: '1px solid black' }}>Name</th>
-                        <th style={{ padding: '10px', border: '1px solid black' }}>Address</th>
-                        <th style={{ padding: '10px', border: '1px solid black' }}>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {currentItems.map((customer) => (
-                        <tr key={customer.Id}>
-                            <td style={{ padding: '10px', border: '1px solid black' }}>{customer.Id}</td>
-                            <td style={{ padding: '10px', border: '1px solid black' }}>{customer.name}</td>
-                            <td style={{ padding: '10px', border: '1px solid black' }}>{customer.address}</td>
-                            <td style={{ padding: '10px', border: '1px solid black' }}><button onClick={() => handleDeleteCustomer(customer.Id)}>Delete</button></td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            {/* Pagination */}
-            <div style={{ marginTop: '20px' }}>
-                <ul style={{ listStyleType: 'none', padding: '0', display: 'flex', justifyContent: 'center' }}>
-                    {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
-                        <li key={page} style={{ margin: '0 5px' }}>
-                            <button onClick={() => handlePageChange(page)}>{page}</button>
-                        </li>
-                    ))}
-                </ul>
+            <div className="about-village">
+                <h1 style={textStyleHeader}>About Bachannapet Village</h1>
+                <p style={textStyle}>{villageText}</p>
             </div>
-            {/* Add customer form */}
-            <div style={{ marginBottom: '10px' }}>
-                <button onClick={handleShowForm}>Add Customer</button>
-                {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
-                {showAddForm && (
-                    <div>
-                        <label>
-                            ID:
-                            <input type="number" name="Id" value={newCustomer.Id} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            Name:
-                            <input type="text" name="name" value={newCustomer.name} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            Address:
-                            <input type="text" name="address" value={newCustomer.address} onChange={handleInputChange} />
-                        </label>
-                        <button onClick={handleAddCustomer}>Submit</button>
-                    </div>
-                )}
-
+            <div className="about-youtube">
+                <h1 style={textStyleHeader}>About HamaraVillages YouTube Channel</h1>
+                <p style={textStyle}>{youtubeText}</p>
             </div>
         </div>
     );
 };
 
-export default AboutContent
+export default AboutContent;
 
