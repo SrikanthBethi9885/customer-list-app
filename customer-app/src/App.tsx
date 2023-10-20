@@ -33,7 +33,7 @@ const Header = styled.header`
   background-color: #3498db;
   height: 50px;
   color: white;
-  padding: 10px;
+  padding:10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -61,7 +61,7 @@ const App = () => {
       <Router>
         <FormContainer>
           <Header>
-            <NavLink to="/"><Logo src={'./logo192.png'} alt="Logo" /></NavLink>
+            <NavLink to="/"><Logo src={'./hmvillages.jpg'} alt="Logo" /></NavLink>
             <div>
               <NavLink to="/">Home</NavLink>
               <NavLink to="/about">About</NavLink>

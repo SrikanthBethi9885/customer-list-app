@@ -17,7 +17,7 @@ const Footer = () => {
     return (
         <Wrapper>
             <FooterStyle>
-                <p>&copy; {new Date().getFullYear()} <b>The Missiong3.</b> All rights reserved for mission g3.</p>
+          <p>&copy; {new Date().getFullYear()} <b>HM VILLAGES.</b> All Rights Reserved For HM VILLAGES.</p>
             </FooterStyle>
 
         </Wrapper>
